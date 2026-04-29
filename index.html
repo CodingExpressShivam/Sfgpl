@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gatepass Entry</title>
+  <style>
+    body { font-family: Arial; background: #f4f7fb; display:flex; justify-content:center; align-items:center; height:100vh; }
+    .container { background:#fff; padding:25px; width:400px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
+    h2 { text-align:center; }
+    input, select { width:100%; padding:9px; margin:5px 0 12px; border:1px solid #ccc; border-radius:6px; }
+    button { width:100%; padding:12px; background:#007bff; color:#fff; border:none; border-radius:6px; }
+    .row { display:flex; gap:10px; }
+    .row div { flex:1; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Gatepass Entry</h2>
+
+  <form id="form">
+    <div class="row">
+      <div><input type="date" id="date"></div>
+      <div><input type="time" id="time"></div>
+    </div>
+
+    <input type="text" id="challan" placeholder="Challan No">
+    <input type="text" id="item" placeholder="Item Description">
+
+    <div class="row">
+      <div><input type="number" id="quantity" placeholder="Quantity"></div>
+      <div><input type="number" id="amount" placeholder="Amount"></div>
+    </div>
+
+    <select id="unit">
+      <option>Nos</option>
+      <option>PKT</option>
+      <option>Bags</option>
+    </select>
+
+    <input type="text" id="vehicle" placeholder="Vehicle Number">
+    <input type="text" id="driver" placeholder="Driver Name">
+    <input type="text" id="location" placeholder="Location">
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<script>
+document.getElementById("form").addEventListener("submit", async function(e){
+  e.preventDefault();
+
+  const data = {
+    date: document.getElementById("date").value,
+    time: document.getElementById("time").value,
+    challan: document.getElementById("challan").value,
+    item: document.getElementById("item").value,
+    quantity: document.getElementById("quantity").value,
+    amount: document.getElementById("amount").value,
+    unit: document.getElementById("unit").value,
+    vehicle: document.getElementById("vehicle").value,
+    driver: document.getElementById("driver").value,
+    location: document.getElementById("location").value
+  };
+
+  await fetch("/save", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  });
+
+  alert("Saved!");
+  document.getElementById("form").reset();
+});
+</script>
+
+</body>
+</html>
