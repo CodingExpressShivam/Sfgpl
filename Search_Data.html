@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Challan</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f7fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .box {
+      background: white;
+      padding: 25px;
+      width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>Search Challan</h2>
+
+  <input type="text" id="challan" placeholder="Enter Challan Number">
+  <button onclick="search()">Search</button>
+
+  <div id="result"></div>
+
+  <br>
+  <a href="index.html">⬅ Back to Entry</a>
+</div>
+
+<script>
+const SCRIPT_URL = "PASTE_YOUR_SCRIPT_URL";
+
+function search() {
+  const challan = document.getElementById("challan").value;
+
+  fetch(SCRIPT_URL + "?challan=" + challan)
+    .then(res => res.json())
+    .then(data => {
+      if (data.found) {
+        document.getElementById("result").innerHTML = `
+          <p><b>Date:</b> ${data.row[0]}</p>
+          <p><b>Time:</b> ${data.row[1]}</p>
+          <p><b>Item:</b> ${data.row[3]}</p>
+          <p><b>Quantity:</b> ${data.row[4]}</p>
+          <p><b>Amount:</b> ${data.row[5]}</p>
+          <p><b>Vehicle:</b> ${data.row[7]}</p>
+          <p><b>Driver:</b> ${data.row[8]}</p>
+          <p><b>Location:</b> ${data.row[9]}</p>
+        `;
+      } else {
+        document.getElementById("result").innerHTML = "❌ No data found";
+      }
+    });
+}
+</script>
+
+</body>
+</html>
