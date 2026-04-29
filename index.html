@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Gatepass Entry</title>
+  <title>Main Gate Entry</title>
 
   <style>
     body {
       font-family: Arial;
       background: #f4f7fb;
+      background-image: url('https://img.magnific.com/free-photo/abstract-futuristic-background-with-3d-design_1361-3532.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -14,8 +18,10 @@
     }
 
     .container {
+      
       background: #fff;
       padding: 25px;
+      padding-right: 45px;
       width: 400px;
       border-radius: 10px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -27,7 +33,7 @@
 
     input, select {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       margin: 8px 0;
       border: 1px solid #ccc;
       border-radius: 5px;
@@ -44,19 +50,20 @@
 
     .row {
       display: flex;
-      gap: 10px;
+      gap: 30px;
     }
 
     .row div {
       flex: 1;
     }
+    
   </style>
 </head>
 
 <body>
 
 <div class="container">
-  <h2>Gatepass Entry</h2>
+  <h2>Gate Entry</h2>
 
   <form id="form">
 
@@ -81,7 +88,14 @@
 
     <input type="text" id="vehicle" placeholder="Vehicle Number">
     <input type="text" id="driver" placeholder="Driver Name">
-    <input type="text" id="location" placeholder="Location">
+    <select id="Location" placeholder="Location">
+      <option>None</option>
+      <option>Sugar</option>
+      <option>Bio Fule</option>
+    </select>
+    
+  
+    
 
     <button type="submit">Submit</button>
   </form>
@@ -117,6 +131,3 @@ document.getElementById("form").addEventListener("submit", function(e){
   document.getElementById("form").reset();
 });
 </script>
-
-</body>
-</html>
