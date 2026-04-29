@@ -1,52 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Search Challan</title>
+  <title>Challan Search</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       font-family: Arial;
-      background: #f4f7fb;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      margin: 0;
+      padding: 15px;
     }
 
-    .box {
-      background: white;
-      padding: 25px;
-      width: 400px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    .container {
+      background: #fff;
+      padding: 20px;
+      max-width: 420px;
+      margin: auto;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
 
-    input, button {
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+
+    input {
       width: 100%;
-      padding: 10px;
-      margin: 8px 0;
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
     }
 
     button {
+      width: 100%;
+      padding: 12px;
       background: #007bff;
       color: white;
       border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 15px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+    }
+
+    th {
+      background: #007bff;
+      color: white;
+      text-align: left;
+      width: 40%;
+    }
+
+    .back {
+      display: block;
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    /* 📱 Mobile optimization */
+    @media (max-width: 480px) {
+      .container {
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+      th, td {
+        font-size: 13px;
+        padding: 8px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<div class="box">
-  <h2>Search Challan</h2>
+<div class="container">
+  <h2>🔍 Challan Search</h2>
 
   <input type="text" id="challan" placeholder="Enter Challan Number">
   <button onclick="search()">Search</button>
 
   <div id="result"></div>
 
-  <br>
-  <a href="index.html">⬅ Back to Entry</a>
+  <a href="index.html" class="back">⬅ Back to Entry</a>
 </div>
 
 <script>
@@ -55,23 +114,36 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjVZ6A3z9nzaOfHoMJt
 function search() {
   const challan = document.getElementById("challan").value;
 
+  if (!challan) {
+    alert("Enter Challan Number");
+    return;
+  }
+
   fetch(SCRIPT_URL + "?challan=" + challan)
     .then(res => res.json())
     .then(data => {
       if (data.found) {
         document.getElementById("result").innerHTML = `
-          <p><b>Date:</b> ${data.row[0]}</p>
-          <p><b>Time:</b> ${data.row[1]}</p>
-          <p><b>Item:</b> ${data.row[3]}</p>
-          <p><b>Quantity:</b> ${data.row[4]}</p>
-          <p><b>Amount:</b> ${data.row[5]}</p>
-          <p><b>Vehicle:</b> ${data.row[7]}</p>
-          <p><b>Driver:</b> ${data.row[8]}</p>
-          <p><b>Location:</b> ${data.row[9]}</p>
+          <table>
+            <tr><th>Date</th><td>${data.row[0]}</td></tr>
+            <tr><th>Time</th><td>${data.row[1]}</td></tr>
+            <tr><th>Challan</th><td>${data.row[2]}</td></tr>
+            <tr><th>Item</th><td>${data.row[3]}</td></tr>
+            <tr><th>Quantity</th><td>${data.row[4]}</td></tr>
+            <tr><th>Amount</th><td>${data.row[5]}</td></tr>
+            <tr><th>Unit</th><td>${data.row[6]}</td></tr>
+            <tr><th>Vehicle</th><td>${data.row[7]}</td></tr>
+            <tr><th>Driver</th><td>${data.row[8]}</td></tr>
+            <tr><th>Location</th><td>${data.row[9]}</td></tr>
+          </table>
         `;
       } else {
-        document.getElementById("result").innerHTML = "❌ No data found";
+        document.getElementById("result").innerHTML = "<p style='color:red;'>❌ No data found</p>";
       }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Error fetching data ❌");
     });
 }
 </script>
