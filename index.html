@@ -2,33 +2,75 @@
 <html>
 <head>
   <title>Gatepass Entry</title>
+
   <style>
-    body { font-family: Arial; background: #f4f7fb; display:flex; justify-content:center; align-items:center; height:100vh; }
-    .container { background:#fff; padding:25px; width:400px; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
-    h2 { text-align:center; }
-    input, select { width:100%; padding:9px; margin:5px 0 12px; border:1px solid #ccc; border-radius:6px; }
-    button { width:100%; padding:12px; background:#007bff; color:#fff; border:none; border-radius:6px; }
-    .row { display:flex; gap:10px; }
-    .row div { flex:1; }
+    body {
+      font-family: Arial;
+      background: #f4f7fb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 25px;
+      width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .row div {
+      flex: 1;
+    }
   </style>
 </head>
+
 <body>
 
 <div class="container">
   <h2>Gatepass Entry</h2>
 
   <form id="form">
+
     <div class="row">
-      <div><input type="date" id="date"></div>
-      <div><input type="time" id="time"></div>
+      <div><input type="date" id="date" required></div>
+      <div><input type="time" id="time" required></div>
     </div>
 
-    <input type="text" id="challan" placeholder="Challan No">
-    <input type="text" id="item" placeholder="Item Description">
+    <input type="text" id="challan" placeholder="Challan No" required>
+    <input type="text" id="item" placeholder="Item Description" required>
 
     <div class="row">
-      <div><input type="number" id="quantity" placeholder="Quantity"></div>
-      <div><input type="number" id="amount" placeholder="Amount"></div>
+      <div><input type="number" id="quantity" placeholder="Quantity" required></div>
+      <div><input type="number" id="amount" placeholder="Amount" required></div>
     </div>
 
     <select id="unit">
@@ -43,10 +85,13 @@
 
     <button type="submit">Submit</button>
   </form>
+
 </div>
 
 <script>
-document.getElementById("form").addEventListener("submit", async function(e){
+const SCRIPT_URL = "PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE";
+
+document.getElementById("form").addEventListener("submit", function(e){
   e.preventDefault();
 
   const data = {
@@ -62,13 +107,13 @@ document.getElementById("form").addEventListener("submit", async function(e){
     location: document.getElementById("location").value
   };
 
-  await fetch("/save", {
+  fetch(SCRIPT_URL, {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    mode: "no-cors",
     body: JSON.stringify(data)
   });
 
-  alert("Saved!");
+  alert("✅ Data Saved to Google Sheet");
   document.getElementById("form").reset();
 });
 </script>
