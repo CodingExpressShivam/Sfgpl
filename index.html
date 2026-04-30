@@ -7,24 +7,44 @@
     body {
       font-family: Arial;
       background: #f4f7fb;
-      background-image: url('https://picjumbo.com/download?image=41336');
+      background-image: url('https://cdn.photoroom.com/v2/image-cache?path=gs://background-7ef44.appspot.com/backgrounds_v3/black/47_-_black.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    /* HEADER */
+    header {
+      background: #007bff;
+      color: white;
+      padding: 12px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #007bff;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
     }
 
     .container {
-      
       background: #fff;
       padding: 25px;
       padding-right: 45px;
       width: 400px;
       border-radius: 10px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin: auto;
     }
 
     h2 {
@@ -46,6 +66,7 @@
       color: white;
       border: none;
       border-radius: 5px;
+      cursor: pointer;
     }
 
     .row {
@@ -56,15 +77,39 @@
     .row div {
       flex: 1;
     }
-    
+
+    /* ✅ MOBILE RESPONSIVE */
+    @media (max-width: 600px) {
+      .container {
+        width: 90%;
+        padding: 15px;
+      }
+
+      .row {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      header {
+        font-size: 16px;
+      }
+
+      footer {
+        font-size: 12px;
+      }
+    }
+
   </style>
 </head>
-  
 
 <body>
 
+<header>
+ SFGPL Gate Entry
+</header>
+
 <div class="container">
-  <h2>Gate Entry</h2>
+  <h2>Store Gate Entry</h2>
 
   <form id="form">
 
@@ -90,19 +135,20 @@
 
     <input type="text" id="vehicle" placeholder="Vehicle Number">
     <input type="text" id="driver" placeholder="Driver Name">
+
     <select id="location" required>
-  <option value="">Select Location</option>
-  <option>SFGPL to Biofuel</option>
-  <option>Biofuel to SFGPL</option>
-</select>
-    
-  
-    
+      <option value="">Select Location</option>
+      <option>SFGPL to Biofuel</option>
+      <option>Biofuel to SFGPL</option>
+    </select>
 
     <button type="submit">Submit</button>
   </form>
-
 </div>
+
+<footer>
+  © 2026 Gate Entry | Developed by Shivam
+</footer>
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjVZ6A3z9nzaOfHoMJthcN_1O3dooZCv807nlgiZJaMYurEGducaImRj4TZMlolz3_uA/exec";
@@ -123,8 +169,6 @@ document.getElementById("form").addEventListener("submit", function(e){
     location: document.getElementById("location").value
   };
 
-  console.log("Sending data:", data); // DEBUG
-
   fetch(SCRIPT_URL, {
     method: "POST",
     mode: "no-cors",
@@ -135,8 +179,10 @@ document.getElementById("form").addEventListener("submit", function(e){
     document.getElementById("form").reset();
   })
   .catch(err => {
-    console.error("Error:", err);
     alert("❌ Error sending data");
   });
 });
 </script>
+
+</body>
+</html>
