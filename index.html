@@ -66,30 +66,33 @@
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjVZ6A3z9nzaOfHoMJthcN_1O3dooZCv807nlgiZJaMYurEGducaImRj4TZMlolz3_uA/exec";
 
+// Token generator
 function generateToken() {
   return Math.floor(100000 + Math.random() * 900000);
 }
 
+// Form submit
 document.getElementById("form").addEventListener("submit", function(e){
   e.preventDefault();
 
   const token = generateToken();
 
-  const data = {
-  token: token,
-  date: document.getElementById("date").value,
-  time: document.getElementById("time").value,
-  item: document.getElementById("item").value,
-  quantity: document.getElementById("quantity").value,
-  unit: document.getElementById("unit").value,
-  vehicle: document.getElementById("vehicle").value,
-  driver: document.getElementById("driver").value,
-  location: document.getElementById("location").value
-};
+  // 🔥 DEBUG
+  console.log("Generated Token:", token);
 
-  // 🔥 DEBUG (IMPORTANT)
-  console.log("TOKEN SENT:", token);
-  console.log("FULL DATA:", data);
+  const data = {
+    token: token,   // 👈 MUST
+    date: document.getElementById("date").value,
+    time: document.getElementById("time").value,
+    item: document.getElementById("item").value,
+    quantity: document.getElementById("quantity").value,
+    unit: document.getElementById("unit").value,
+    vehicle: document.getElementById("vehicle").value,
+    driver: document.getElementById("driver").value,
+    location: document.getElementById("location").value
+  };
+
+  console.log("Sending Data:", data); // 👈 CHECK
 
   fetch(SCRIPT_URL, {
     method: "POST",
