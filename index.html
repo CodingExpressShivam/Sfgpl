@@ -39,10 +39,8 @@
     <input type="date" id="date" required>
     <input type="time" id="time" required>
 
-    <input type="text" id="challan" placeholder="Challan No" required>
-    <input type="text" id="item" placeholder="Item">
-
-    <input type="number" id="quantity" placeholder="Quantity">
+    <input type="text" id="item" placeholder="Item Description" required>
+    <input type="number" id="quantity" placeholder="Quantity" required>
 
     <select id="unit">
       <option>Nos</option>
@@ -50,10 +48,11 @@
       <option>Bags</option>
     </select>
 
-    <input type="text" id="vehicle" placeholder="Vehicle">
-    <input type="text" id="driver" placeholder="Driver">
+    <input type="text" id="vehicle" placeholder="Vehicle Number">
+    <input type="text" id="driver" placeholder="Driver Name">
 
-    <select id="location">
+    <select id="location" required>
+      <option value="">Select Location</option>
       <option>SFGPL</option>
       <option>Biofuel</option>
     </select>
@@ -61,7 +60,6 @@
     <button type="submit">Submit</button>
 
   </form>
-
 </div>
 
 <script>
@@ -88,7 +86,6 @@ document.getElementById("form").addEventListener("submit", function(e){
     token: token,
     date: document.getElementById("date").value,
     time: document.getElementById("time").value,
-    challan: document.getElementById("challan").value,
     item: document.getElementById("item").value,
     quantity: document.getElementById("quantity").value,
     unit: document.getElementById("unit").value,
