@@ -1,168 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Main Gate Entry</title>
+  <title>Gate Entry</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       font-family: Arial;
-      background: #f4f7fb;
-      background-image: url('https://cdn.photoroom.com/v2/image-cache?path=gs://background-7ef44.appspot.com/backgrounds_v3/black/47_-_black.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 100vh;
-      margin: 0;
-    }
-
-    /* HEADER */
-    header {
-      background: #007bff;
+      background: #000;
       color: white;
-      padding: 12px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
+      padding: 15px;
     }
 
-    /* FOOTER */
-    footer {
-      background: #007bff;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      font-size: 14px;
-    }
-
-    .container {
+    .box {
       background: #fff;
-      padding: 25px;
-      padding-right: 45px;
-      width: 400px;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      color: black;
+      padding: 20px;
+      max-width: 400px;
       margin: auto;
+      border-radius: 10px;
     }
 
-    h2 {
-      text-align: center;
-    }
-
-    input, select {
+    input, select, button {
       width: 100%;
       padding: 10px;
       margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
     }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .row {
-      display: flex;
-      gap: 30px;
-    }
-
-    .row div {
-      flex: 1;
-    }
-
-    /* ✅ MOBILE RESPONSIVE */
-    @media (max-width: 600px) {
-      .container {
-        width: 90%;
-        padding: 15px;
-      }
-
-      .row {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      header {
-        font-size: 16px;
-      }
-
-      footer {
-        font-size: 12px;
-      }
-    }
-
   </style>
 </head>
 
 <body>
 
-<header>
- SFGPL Gate Entry
-</header>
-
-<div class="container">
-  <h2>Store Gate Entry</h2>
+<div class="box">
+  <h3>Gate Entry</h3>
 
   <form id="form">
 
-    <div class="row">
-      <div><input type="date" id="date" required></div>
-      <div><input type="time" id="time" required></div>
-    </div>
+    <input type="date" id="date" required>
+    <input type="time" id="time" required>
 
     <input type="text" id="challan" placeholder="Challan No" required>
-    <input type="text" id="item" placeholder="Item Description" required>
+    <input type="text" id="item" placeholder="Item">
 
-    <div class="row">
-      <div><input type="number" id="quantity" placeholder="Quantity" required></div>
-      <div><input type="number" id="amount" placeholder="Amount" required></div>
-    </div>
+    <input type="number" id="quantity" placeholder="Quantity">
 
     <select id="unit">
       <option>Nos</option>
       <option>PKT</option>
       <option>Bags</option>
-      <option>etc.</option>
     </select>
 
-    <input type="text" id="vehicle" placeholder="Vehicle Number">
-    <input type="text" id="driver" placeholder="Driver Name">
+    <input type="text" id="vehicle" placeholder="Vehicle">
+    <input type="text" id="driver" placeholder="Driver">
 
-    <select id="location" required>
-      <option value="">Select Location</option>
-      <option>SFGPL to Biofuel</option>
-      <option>Biofuel to SFGPL</option>
+    <select id="location">
+      <option>SFGPL</option>
+      <option>Biofuel</option>
     </select>
 
     <button type="submit">Submit</button>
-  </form>
-</div>
 
-<footer>
-  © 2026 Gate Entry | Developed by Shivam
-</footer>
+  </form>
+
+</div>
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjVZ6A3z9nzaOfHoMJthcN_1O3dooZCv807nlgiZJaMYurEGducaImRj4TZMlolz3_uA/exec";
 
+// Auto Date Time
+window.onload = () => {
+  const now = new Date();
+  document.getElementById("date").value = now.toISOString().split("T")[0];
+  document.getElementById("time").value = now.toTimeString().slice(0,5);
+};
+
+// Token Generate
+function generateToken() {
+  return Math.floor(100000 + Math.random() * 900000);
+}
+
 document.getElementById("form").addEventListener("submit", function(e){
   e.preventDefault();
 
+  const token = generateToken();
+
   const data = {
+    token: token,
     date: document.getElementById("date").value,
     time: document.getElementById("time").value,
     challan: document.getElementById("challan").value,
     item: document.getElementById("item").value,
     quantity: document.getElementById("quantity").value,
-    amount: document.getElementById("amount").value,
     unit: document.getElementById("unit").value,
     vehicle: document.getElementById("vehicle").value,
     driver: document.getElementById("driver").value,
@@ -173,14 +101,10 @@ document.getElementById("form").addEventListener("submit", function(e){
     method: "POST",
     mode: "no-cors",
     body: JSON.stringify(data)
-  })
-  .then(() => {
-    alert("✅ Data Saved");
-    document.getElementById("form").reset();
-  })
-  .catch(err => {
-    alert("❌ Error sending data");
   });
+
+  alert("Saved ✅ Token: " + token);
+  document.getElementById("form").reset();
 });
 </script>
 
