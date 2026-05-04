@@ -1,66 +1,149 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Receive Entry</title>
+  <title>Gate Receive System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      color: black;
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .search-btn {
+      background: #2563eb;
+      color: white;
+    }
+
+    .receive-btn {
+      background: #16a34a;
+      color: white;
+      font-size: 20px;
+      padding: 18px;
+    }
+
+    .card {
+      text-align: left;
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #f1f5f9;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .notfound {
+      color: red;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
 </head>
+
 <body>
 
-<h2>Gate Receive System v2</h2>
+<div class="container">
 
-<input type="text" id="token" placeholder="Enter Token Number">
-<button onclick="searchToken()">Search</button>
+  <h2>🚪 Gate Receive</h2>
 
-<div id="result"></div>
+  <input type="text" id="token" placeholder="Enter Token Number">
+  <button class="search-btn" onclick="searchToken()">🔍 Search</button>
+
+  <div id="result"></div>
+
+</div>
 
 <script>
 const URL = "https://script.google.com/macros/s/AKfycbx6ypfjsz7mMKizfZKl4Hurl94vTneKlhY3Z8GXqz-eHP2-ekU8gbFhdHAn4adPvAW5/exec";
 
 let currentRow = "";
 
-// 🔍 SEARCH
+// SEARCH
 function searchToken() {
   let token = document.getElementById("token").value;
 
   fetch(URL + "?search=" + token)
     .then(res => res.json())
     .then(data => {
-      console.log(data);
 
       if (!data.found) {
-        document.getElementById("result").innerHTML = "❌ Not Found";
+        document.getElementById("result").innerHTML =
+          `<div class="notfound">❌ Token Not Found</div>`;
       } else {
         currentRow = data.rowIndex;
 
         document.getElementById("result").innerHTML = `
-          <b>Item:</b> ${data.row[3]} <br>
-          <b>Quantity:</b> ${data.row[4]} <br>
-          <b>Vehicle:</b> ${data.row[6]} <br>
-          <b>Driver:</b> ${data.row[7]} <br><br>
+          <div class="card">
+            <div><span class="label">Item:</span> ${data.row[3]}</div>
+            <div><span class="label">Quantity:</span> ${data.row[4]}</div>
+            <div><span class="label">Vehicle:</span> ${data.row[6]}</div>
+            <div><span class="label">Driver:</span> ${data.row[7]}</div>
 
-          <button onclick="markReceived()">✅ Mark Received</button>
+            <button class="receive-btn" onclick="markReceived()">
+              ✅ MARK RECEIVED
+            </button>
+          </div>
         `;
       }
     });
 }
 
-// 📦 UPDATE
+// UPDATE
 function markReceived() {
-  console.log("Row:", currentRow);
-
   fetch(URL, {
     method: "POST",
-    mode: "no-cors", // 👈 IMPORTANT (CORS fix)
+    mode: "no-cors",
     body: JSON.stringify({
       action: "receive",
       row: Number(currentRow)
     })
   })
   .then(() => {
-    alert("✅ Received (Check Sheet)");
+    alert("✅ Received Done");
     location.reload();
-  })
-  .catch(err => {
-    alert("Error: " + err);
   });
 }
 </script>
