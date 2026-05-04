@@ -1,149 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Challan Search</title>
-
+  <title>Search</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    body {
-      font-family: Arial;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      margin: 0;
-      padding: 15px;
-    }
-
-    .container {
-      background: #fff;
-      padding: 20px;
-      max-width: 420px;
-      margin: auto;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 15px;
-      font-size: 22px;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-    }
-
-    button:hover {
-      background: #0056b3;
-    }
-
-    table {
-      width: 100%;
-      margin-top: 15px;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 10px;
-      border: 1px solid #ddd;
-      font-size: 14px;
-    }
-
-    th {
-      background: #007bff;
-      color: white;
-      text-align: left;
-      width: 40%;
-    }
-
-    .back {
-      display: block;
-      margin-top: 15px;
-      text-align: center;
-      font-size: 14px;
-    }
-
-    /* 📱 Mobile optimization */
-    @media (max-width: 480px) {
-      .container {
-        padding: 15px;
-      }
-
-      h2 {
-        font-size: 18px;
-      }
-
-      th, td {
-        font-size: 13px;
-        padding: 8px;
-      }
-    }
+    body { font-family: Arial; padding: 15px; }
+    .box { max-width: 400px; margin: auto; }
+    input, button { width: 100%; padding: 10px; margin: 8px 0; }
   </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h2>🔍 Challan Search</h2>
+<div class="box">
+  <h3>Search</h3>
 
-  <input type="text" id="challan" placeholder="Enter Challan Number">
+  <input type="text" id="search" placeholder="Enter Token / Challan">
   <button onclick="search()">Search</button>
 
   <div id="result"></div>
-
-  <a href="index.html" class="back">⬅ Back to Entry</a>
 </div>
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjVZ6A3z9nzaOfHoMJthcN_1O3dooZCv807nlgiZJaMYurEGducaImRj4TZMlolz3_uA/exec";
 
 function search() {
-  const challan = document.getElementById("challan").value;
+  const val = document.getElementById("search").value;
 
-  if (!challan) {
-    alert("Enter Challan Number");
-    return;
-  }
-
-  fetch(SCRIPT_URL + "?challan=" + challan)
+  fetch(SCRIPT_URL + "?search=" + val)
     .then(res => res.json())
     .then(data => {
       if (data.found) {
         document.getElementById("result").innerHTML = `
-          <table>
-            <tr><th>Date</th><td>${data.row[0]}</td></tr>
-            <tr><th>Time</th><td>${data.row[1]}</td></tr>
-            <tr><th>Challan</th><td>${data.row[2]}</td></tr>
-            <tr><th>Item</th><td>${data.row[3]}</td></tr>
-            <tr><th>Quantity</th><td>${data.row[4]}</td></tr>
-            <tr><th>Amount</th><td>${data.row[5]}</td></tr>
-            <tr><th>Unit</th><td>${data.row[6]}</td></tr>
-            <tr><th>Vehicle</th><td>${data.row[7]}</td></tr>
-            <tr><th>Driver</th><td>${data.row[8]}</td></tr>
-            <tr><th>Location</th><td>${data.row[9]}</td></tr>
-          </table>
+          <p>Token: ${data.row[0]}</p>
+          <p>Date: ${data.row[1]}</p>
+          <p>Challan: ${data.row[3]}</p>
+          <p>Item: ${data.row[4]}</p>
         `;
       } else {
-        document.getElementById("result").innerHTML = "<p style='color:red;'>❌ No data found</p>";
+        document.getElementById("result").innerHTML = "Not Found";
       }
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Error fetching data ❌");
     });
 }
 </script>
