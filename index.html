@@ -62,7 +62,7 @@
   </form>
 </div>
 
-<script>
+
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjVZ6A3z9nzaOfHoMJthcN_1O3dooZCv807nlgiZJaMYurEGducaImRj4TZMlolz3_uA/exec";
 
@@ -76,7 +76,7 @@ document.getElementById("form").addEventListener("submit", function(e){
   const token = generateToken();
 
   const data = {
-    token: token,
+    token: token,   // 👈 MUST
     date: document.getElementById("date").value,
     time: document.getElementById("time").value,
     item: document.getElementById("item").value,
@@ -87,7 +87,9 @@ document.getElementById("form").addEventListener("submit", function(e){
     location: document.getElementById("location").value
   };
 
-  console.log("Sending Data:", data); // 👈 IMPORTANT
+  // 🔥 DEBUG (IMPORTANT)
+  console.log("TOKEN SENT:", token);
+  console.log("FULL DATA:", data);
 
   fetch(SCRIPT_URL, {
     method: "POST",
@@ -95,9 +97,8 @@ document.getElementById("form").addEventListener("submit", function(e){
     body: JSON.stringify(data)
   });
 
-  alert("✅ Saved | Token: " + token);
+  alert("Saved ✅ Token: " + token);
 });
 </script>
-
 </body>
 </html>
