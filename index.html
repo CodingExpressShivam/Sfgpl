@@ -63,16 +63,9 @@
 </div>
 
 <script>
+<script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjVZ6A3z9nzaOfHoMJthcN_1O3dooZCv807nlgiZJaMYurEGducaImRj4TZMlolz3_uA/exec";
 
-// Auto Date Time
-window.onload = () => {
-  const now = new Date();
-  document.getElementById("date").value = now.toISOString().split("T")[0];
-  document.getElementById("time").value = now.toTimeString().slice(0,5);
-};
-
-// Token Generate
 function generateToken() {
   return Math.floor(100000 + Math.random() * 900000);
 }
@@ -94,14 +87,15 @@ document.getElementById("form").addEventListener("submit", function(e){
     location: document.getElementById("location").value
   };
 
+  console.log("Sending Data:", data); // 👈 IMPORTANT
+
   fetch(SCRIPT_URL, {
     method: "POST",
     mode: "no-cors",
     body: JSON.stringify(data)
   });
 
-  alert("Saved ✅ Token: " + token);
-  document.getElementById("form").reset();
+  alert("✅ Saved | Token: " + token);
 });
 </script>
 
