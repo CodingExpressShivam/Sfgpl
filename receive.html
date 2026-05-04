@@ -18,7 +18,7 @@ let currentRow = "";
 function searchToken() {
   let token = document.getElementById("token").value;
 
-  fetch("YOUR_WEB_APP_URL?token=" + token)
+  fetch("https://script.google.com/macros/s/AKfycbzSORXA_91sZJz0ZlHD-DvlhFj2uRVwc3clnShidx8qC1fhUIXxhVB-1LYmW-joGr2K/exec" + token)
     .then(res => res.json())
     .then(data => {
       if (data.error) {
