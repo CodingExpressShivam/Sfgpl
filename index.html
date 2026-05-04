@@ -7,91 +7,128 @@
   <style>
     body {
       font-family: Arial;
-      background: #000;
+      background: #0f172a;
       color: white;
-      padding: 15px;
-    }
-
-    .box {
-      background: #fff;
-      color: black;
       padding: 20px;
-      max-width: 400px;
-      margin: auto;
-      border-radius: 10px;
+      text-align: center;
     }
 
-    input, select, button {
+    /* 🔥 TOP BUTTON */
+    .top-btn {
+      display: block;
       width: 100%;
-      padding: 10px;
-      margin: 8px 0;
+      max-width: 420px;
+      margin: auto;
+      margin-bottom: 15px;
+      padding: 15px;
+      background: #2563eb;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+
+    .top-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .container {
+      background: white;
+      color: black;
+      max-width: 420px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
 
     button {
-      background: green;
-      color: white;
+      width: 100%;
+      padding: 16px;
+      font-size: 18px;
       border: none;
+      border-radius: 10px;
       cursor: pointer;
+      background: #16a34a;
+      color: white;
+      margin-top: 10px;
     }
 
     button:hover {
-      background: darkgreen;
+      background: #15803d;
     }
 
-    a {
-      color: yellow;
+    .row {
+      display: flex;
+      gap: 10px;
     }
+
+    .row input {
+      flex: 1;
+    }
+
   </style>
 </head>
 
 <body>
 
-  <a href="receive.html">➡️ Go to Receive Entry</a>
-  <h1>V.2.3</h1>
+<h1>🚪 Gate Entry</h1>
 
-  <div class="box">
-    <h3>Gate Entry</h3>
+<!-- 🔥 TOP RECEIVE BUTTON -->
+<a href="receive.html" class="top-btn">📦 GO TO RECEIVE ENTRY</a>
 
-    <form id="form">
+<div class="container">
 
+  <form id="form">
+
+    <div class="row">
       <input type="date" id="date" required>
       <input type="time" id="time" required>
+    </div>
 
-      <input type="text" id="item" placeholder="Item Description" required>
-      <input type="number" id="quantity" placeholder="Quantity" required>
+    <input type="text" id="item" placeholder="Item Description" required>
+    <input type="number" id="quantity" placeholder="Quantity" required>
 
-      <select id="unit">
-        <option>Nos</option>
-        <option>Packet</option>
-        <option>Bags</option>
-        <option>Liter</option>
-      </select>
+    <select id="unit">
+      <option>Nos</option>
+      <option>Packet</option>
+      <option>Bags</option>
+      <option>Liter</option>
+    </select>
 
-      <input type="text" id="vehicle" placeholder="Vehicle Number">
-      <input type="text" id="driver" placeholder="Driver Name">
+    <input type="text" id="vehicle" placeholder="Vehicle Number">
+    <input type="text" id="driver" placeholder="Driver Name">
 
-      <select id="location" required>
-        <option value="">Select Location</option>
-        <option>SFGPL Sand to BioFuel</option>
-        <option>BioFuel Sand to SFGPL</option>
-        <option>SFGPL Received</option>
-        <option>BioFuel Received</option>
-      </select>
+    <select id="location" required>
+      <option value="">Select Location</option>
+      <option>SFGPL Sand to BioFuel</option>
+      <option>BioFuel Sand to SFGPL</option>
+      <option>SFGPL Received</option>
+      <option>BioFuel Received</option>
+    </select>
 
-      <button type="submit">Submit</button>
+    <button type="submit">✅ SAVE ENTRY</button>
 
-    </form>
-  </div>
+  </form>
+
+</div>
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzSORXA_91sZJz0ZlHD-DvlhFj2uRVwc3clnShidx8qC1fhUIXxhVB-1LYmW-joGr2K/exec";
 
-// 🔢 Token generator
 function generateToken() {
   return Math.floor(100000 + Math.random() * 900000);
 }
 
-// 📤 Form submit
 document.getElementById("form").addEventListener("submit", function(e){
   e.preventDefault();
 
@@ -114,12 +151,9 @@ document.getElementById("form").addEventListener("submit", function(e){
     body: JSON.stringify(data)
   })
   .then(res => res.text())
-  .then(res => {
-    alert("✅ Saved Successfully\nToken: " + token);
+  .then(() => {
+    alert("✅ Saved\nToken: " + token);
     document.getElementById("form").reset();
-  })
-  .catch(err => {
-    alert("❌ Error: " + err);
   });
 });
 </script>
