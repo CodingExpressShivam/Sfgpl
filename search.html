@@ -1,45 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Search</title>
+  <title>Token Search</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    body { font-family: Arial; padding: 15px; }
-    .box { max-width: 400px; margin: auto; }
-    input, button { width: 100%; padding: 10px; margin: 8px 0; }
+    body {
+      font-family: Arial;
+      padding: 15px;
+      background: #f4f4f4;
+    }
+
+    .box {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+    }
   </style>
 </head>
 
 <body>
 
 <div class="box">
-  <h3>Search</h3>
+  <h3>Search by Token</h3>
 
-  <input type="text" id="search" placeholder="Enter Token / Challan">
+  <input type="text" id="search" placeholder="Enter Token Number">
   <button onclick="search()">Search</button>
 
   <div id="result"></div>
+
+  <br>
+  <a href="index.html">⬅ Back</a>
 </div>
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwjVZ6A3z9nzaOfHoMJthcN_1O3dooZCv807nlgiZJaMYurEGducaImRj4TZMlolz3_uA/exec";
 
 function search() {
-  const val = document.getElementById("search").value;
+  const value = document.getElementById("search").value;
 
-  fetch(SCRIPT_URL + "?search=" + val)
+  fetch(SCRIPT_URL + "?search=" + value)
     .then(res => res.json())
     .then(data => {
       if (data.found) {
         document.getElementById("result").innerHTML = `
-          <p>Token: ${data.row[0]}</p>
-          <p>Date: ${data.row[1]}</p>
-          <p>Challan: ${data.row[3]}</p>
-          <p>Item: ${data.row[4]}</p>
+          <p><b>Token:</b> ${data.row[0]}</p>
+          <p><b>Date:</b> ${data.row[1]}</p>
+          <p><b>Time:</b> ${data.row[2]}</p>
+          <p><b>Item:</b> ${data.row[3]}</p>
+          <p><b>Quantity:</b> ${data.row[4]}</p>
+          <p><b>Vehicle:</b> ${data.row[6]}</p>
+          <p><b>Driver:</b> ${data.row[7]}</p>
+          <p><b>Location:</b> ${data.row[8]}</p>
         `;
       } else {
-        document.getElementById("result").innerHTML = "Not Found";
+        document.getElementById("result").innerHTML = "❌ Data Not Found";
       }
     });
 }
