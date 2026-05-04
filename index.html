@@ -76,16 +76,16 @@ document.getElementById("form").addEventListener("submit", function(e){
   const token = generateToken();
 
   const data = {
-    token: token,   // 👈 MUST
-    date: document.getElementById("date").value,
-    time: document.getElementById("time").value,
-    item: document.getElementById("item").value,
-    quantity: document.getElementById("quantity").value,
-    unit: document.getElementById("unit").value,
-    vehicle: document.getElementById("vehicle").value,
-    driver: document.getElementById("driver").value,
-    location: document.getElementById("location").value
-  };
+  token: token,
+  date: document.getElementById("date").value,
+  time: document.getElementById("time").value,
+  item: document.getElementById("item").value,
+  quantity: document.getElementById("quantity").value,
+  unit: document.getElementById("unit").value,
+  vehicle: document.getElementById("vehicle").value,
+  driver: document.getElementById("driver").value,
+  location: document.getElementById("location").value
+};
 
   // 🔥 DEBUG (IMPORTANT)
   console.log("TOKEN SENT:", token);
