@@ -15,32 +15,44 @@
 <script>
 let currentRow = "";
 
+// 🔍 SEARCH TOKEN
 function searchToken() {
   let token = document.getElementById("token").value;
 
-  fetch("https://script.google.com/macros/s/AKfycbzSORXA_91sZJz0ZlHD-DvlhFj2uRVwc3clnShidx8qC1fhUIXxhVB-1LYmW-joGr2K/exec" + token)
+  fetch("https://script.google.com/macros/s/AKfycbzSORXA_91sZJz0ZlHD-DvlhFj2uRVwc3clnShidx8qC1fhUIXxhVB-1LYmW-joGr2K/exec?search=" + token)
     .then(res => res.json())
     .then(data => {
-      if (data.error) {
-        document.getElementById("result").innerHTML = "Not Found";
+      if (!data.found) {
+        document.getElementById("result").innerHTML = "❌ Not Found";
       } else {
-        currentRow = data.row;
+        currentRow = data.rowIndex;
+
         document.getElementById("result").innerHTML = `
-          Item: ${data.item} <br>
-          Quantity: ${data.quantity} <br>
-          Vehicle: ${data.vehicle} <br>
-          Driver: ${data.driver} <br><br>
-          <button onclick="markReceived()">Mark Received</button>
+          <b>Item:</b> ${data.row[3]} <br>
+          <b>Quantity:</b> ${data.row[4]} <br>
+          <b>Vehicle:</b> ${data.row[6]} <br>
+          <b>Driver:</b> ${data.row[7]} <br><br>
+
+          <button onclick="markReceived()">✅ Mark Received</button>
         `;
       }
     });
 }
 
+// 📦 MARK AS RECEIVED
 function markReceived() {
-  google.script.run.withSuccessHandler(() => {
-    alert("Received Successfully");
+  fetch("https://script.google.com/macros/s/AKfycbzSORXA_91sZJz0ZlHD-DvlhFj2uRVwc3clnShidx8qC1fhUIXxhVB-1LYmW-joGr2K/exec", {
+    method: "POST",
+    body: JSON.stringify({
+      action: "receive",
+      row: currentRow
+    })
+  })
+  .then(res => res.text())
+  .then(() => {
+    alert("✅ Received Successfully");
     location.reload();
-  }).markReceived(currentRow);
+  });
 }
 </script>
 
