@@ -13,13 +13,15 @@
 <div id="result"></div>
 
 <script>
+const URL = "https://script.google.com/macros/s/AKfycbzSORXA_91sZJz0ZlHD-DvlhFj2uRVwc3clnShidx8qC1fhUIXxhVB-1LYmW-joGr2K/exec";
+
 let currentRow = "";
 
-// 🔍 SEARCH TOKEN
+// SEARCH
 function searchToken() {
   let token = document.getElementById("token").value;
 
-  fetch("https://script.google.com/macros/s/AKfycbzSORXA_91sZJz0ZlHD-DvlhFj2uRVwc3clnShidx8qC1fhUIXxhVB-1LYmW-joGr2K/exec?search=" + token)
+  fetch(URL + "?search=" + token)
     .then(res => res.json())
     .then(data => {
       if (!data.found) {
@@ -39,9 +41,9 @@ function searchToken() {
     });
 }
 
-// 📦 MARK AS RECEIVED
+// UPDATE
 function markReceived() {
-  fetch("https://script.google.com/macros/s/AKfycbzSORXA_91sZJz0ZlHD-DvlhFj2uRVwc3clnShidx8qC1fhUIXxhVB-1LYmW-joGr2K/exec", {
+  fetch(URL, {
     method: "POST",
     body: JSON.stringify({
       action: "receive",
@@ -49,8 +51,8 @@ function markReceived() {
     })
   })
   .then(res => res.text())
-  .then(() => {
-    alert("✅ Received Successfully");
+  .then(data => {
+    alert(data); // 👈 "Updated" dikhega
     location.reload();
   });
 }
