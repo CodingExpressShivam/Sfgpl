@@ -17,7 +17,7 @@ const URL = "https://script.google.com/macros/s/AKfycbzSORXA_91sZJz0ZlHD-DvlhFj2
 
 let currentRow = "";
 
-// SEARCH
+// 🔍 SEARCH
 function searchToken() {
   let token = document.getElementById("token").value;
 
@@ -41,19 +41,28 @@ function searchToken() {
     });
 }
 
-// UPDATE
+// 📦 UPDATE STATUS
 function markReceived() {
+  console.log("Row:", currentRow); // debug
+
   fetch(URL, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({
       action: "receive",
-      row: currentRow
+      row: Number(currentRow) // 👈 IMPORTANT
     })
   })
   .then(res => res.text())
   .then(data => {
-    alert(data); // 👈 "Updated" dikhega
+    console.log("Server:", data);
+    alert("Server: " + data); // Updated dikhega
     location.reload();
+  })
+  .catch(err => {
+    alert("Error: " + err);
   });
 }
 </script>
