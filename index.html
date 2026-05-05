@@ -138,8 +138,18 @@ function generateToken() {
   return Math.floor(100000 + Math.random() * 900000);
 }
 
+let isSubmitting = false;
+
 document.getElementById("form").addEventListener("submit", function(e){
   e.preventDefault();
+
+  // 🔥 stop multiple click
+  if (isSubmitting) return;
+  isSubmitting = true;
+
+  const btn = document.querySelector("button[type='submit']");
+  btn.disabled = true;
+  btn.innerText = "Saving...";
 
   const token = generateToken();
 
@@ -163,6 +173,15 @@ document.getElementById("form").addEventListener("submit", function(e){
   .then(() => {
     alert("✅ Saved\nToken: " + token);
     document.getElementById("form").reset();
+  })
+  .catch(() => {
+    alert("❌ Error saving data");
+  })
+  .finally(() => {
+    // 🔄 enable again after response
+    isSubmitting = false;
+    btn.disabled = false;
+    btn.innerText = "✅ SAVE ENTRY";
   });
 });
 </script>
