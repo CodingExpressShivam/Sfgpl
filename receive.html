@@ -1,169 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Gate Receive System</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body {
-      font-family: Arial;
-      background: #0f172a;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .container {
-      background: white;
-      color: black;
-      max-width: 400px;
-      margin: auto;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
-
-    h2 {
-      margin-bottom: 20px;
-    }
-
-    input {
-      width: 100%;
-      padding: 15px;
-      font-size: 18px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-
-    button {
-      width: 100%;
-      padding: 15px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .footer {
-      position: fixed;
-      bottom: 10px;
-      width: 100%;
-      text-align: center;
-      color: #aaa;
-      font-size: 14px;
-    }
-
-    .search-btn {
-      background: #2563eb;
-      color: white;
-    }
-
-    .receive-btn {
-      background: #16a34a;
-      color: white;
-      font-size: 20px;
-      padding: 18px;
-    }
-
-    .card {
-      text-align: left;
-      margin-top: 15px;
-      padding: 15px;
-      border-radius: 10px;
-      background: #f1f5f9;
-    }
-
-    .label {
-      font-weight: bold;
-    }
-
-    .notfound {
-      color: red;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-  </style>
+  <title>Receive Entry</title>
 </head>
-
 <body>
 
-<div class="container">
+<h2>Gate Receive System</h2>
 
-  <h2>🚪 Gate Receive</h2>
+<input type="text" id="token" placeholder="Enter Token Number">
+<button onclick="searchToken()">Search</button>
 
-  <input type="text" id="token" placeholder="Enter Token Number">
-  <button class="search-btn" onclick="searchToken()">🔍 Search</button>
-
-  <div id="result"></div>
-
-</div>
+<div id="result"></div>
 
 <script>
-const URL = "https://script.google.com/macros/s/AKfycbx6ypfjsz7mMKizfZKl4Hurl94vTneKlhY3Z8GXqz-eHP2-ekU8gbFhdHAn4adPvAW5/exec";
+const URL = "YOUR_WEB_APP_URL"; // 👈 replace karo
 
 let currentRow = "";
 
-// SEARCH
+// 🔍 SEARCH
 function searchToken() {
   let token = document.getElementById("token").value;
 
   fetch(URL + "?search=" + token)
     .then(res => res.json())
     .then(data => {
-
       if (!data.found) {
-        document.getElementById("result").innerHTML =
-          `<div class="notfound">❌ Token Not Found</div>`;
+        document.getElementById("result").innerHTML = "❌ Not Found";
       } else {
         currentRow = data.rowIndex;
 
         document.getElementById("result").innerHTML = `
-          <div class="card">
-            <div><span class="label">Item:</span> ${data.row[3]}</div>
-            <div><span class="label">Quantity:</span> ${data.row[4]}</div>
-            <div><span class="label">Vehicle:</span> ${data.row[6]}</div>
-            <div><span class="label">Driver:</span> ${data.row[7]}</div>
+          <b>Item:</b> ${data.row[3]} <br>
+          <b>Quantity:</b> ${data.row[4]} <br>
+          <b>Vehicle:</b> ${data.row[6]} <br>
+          <b>Driver:</b> ${data.row[7]} <br><br>
 
-            <input type="text" id="receiver" placeholder="Received By (Name)">
-            <input type="text" id="remark" placeholder="Remark (Optional)">
+          <input id="receiver" placeholder="Receiver Name"><br><br>
+          <input id="remark" placeholder="Remark"><br><br>
 
-            <button class="receive-btn" onclick="markReceived()">
-              ✅ MARK RECEIVED
-            </button>
-          </div>
+          <button onclick="markReceived()">✅ Mark Received</button>
         `;
       }
     });
 }
 
-// UPDATE
+// ✅ UPDATE
 function markReceived() {
   let receiver = document.getElementById("receiver").value;
   let remark = document.getElementById("remark").value;
 
+  if (!receiver) {
+    alert("Receiver name required");
+    return;
+  }
+
   fetch(URL, {
     method: "POST",
-    mode: "no-cors",
     body: JSON.stringify({
       action: "receive",
-      row: Number(currentRow),
+      row: currentRow,
       receiver: receiver,
       remark: remark
     })
   })
-  .then(() => {
-    alert("✅ Received Done");
+  .then(res => res.text())
+  .then(data => {
+    alert("✅ " + data);
     location.reload();
   });
 }
 </script>
-
-<div class="footer">
-  Developed by Shivam Saini
-</div>
 
 </body>
 </html>
