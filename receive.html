@@ -46,14 +46,15 @@
       cursor: pointer;
       margin-top: 10px;
     }
-.footer {
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-  color: #aaa;
-  font-size: 14px;
-}
+
+    .footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: #aaa;
+      font-size: 14px;
+    }
 
     .search-btn {
       background: #2563eb;
@@ -76,11 +77,6 @@
     }
 
     .label {
-      font-weight: bold;
-    }
-
-    .status {
-      margin-top: 10px;
       font-weight: bold;
     }
 
@@ -131,6 +127,9 @@ function searchToken() {
             <div><span class="label">Vehicle:</span> ${data.row[6]}</div>
             <div><span class="label">Driver:</span> ${data.row[7]}</div>
 
+            <input type="text" id="receiver" placeholder="Received By (Name)">
+            <input type="text" id="remark" placeholder="Remark (Optional)">
+
             <button class="receive-btn" onclick="markReceived()">
               ✅ MARK RECEIVED
             </button>
@@ -142,12 +141,17 @@ function searchToken() {
 
 // UPDATE
 function markReceived() {
+  let receiver = document.getElementById("receiver").value;
+  let remark = document.getElementById("remark").value;
+
   fetch(URL, {
     method: "POST",
     mode: "no-cors",
     body: JSON.stringify({
       action: "receive",
-      row: Number(currentRow)
+      row: Number(currentRow),
+      receiver: receiver,
+      remark: remark
     })
   })
   .then(() => {
@@ -155,10 +159,11 @@ function markReceived() {
     location.reload();
   });
 }
-
 </script>
+
 <div class="footer">
   Developed by Shivam Saini
 </div>
+
 </body>
 </html>
